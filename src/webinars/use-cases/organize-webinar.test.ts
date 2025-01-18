@@ -5,17 +5,23 @@ import { IIdGenerator } from 'src/core/ports/id-generator.interface';
 import { InMemoryWebinarRepository } from 'src/webinars/adapters/webinar-repository.in-memory';
 import { Webinar } from 'src/webinars/entities/webinar.entity';
 import { OrganizeWebinars } from 'src/webinars/use-cases/organize-webinar';
+import { BookSeat } from './book-seat';
+import { IParticipationRepository } from '../ports/participation-repository.interface'; 
+import { IUserRepository } from 'src/users/ports/user-repository.interface';
+import { IWebinarRepository } from '../ports/webinar-repository.interface';
+import { IMailer } from 'src/core/ports/mailer.interface';
 
 describe('Feature: Organize webinars', () => {
   let repository: InMemoryWebinarRepository;
   let idGenerator: IIdGenerator;
   let useCase: OrganizeWebinars;
   let dateGenerator: IDateGenerator;
-
+  
   const payload = {
     userId: 'user-alice-id',
     title: 'Webinar title',
     seats: 100,
+    seatleft: 10,
     startDate: new Date('2024-01-10T10:00:00.000Z'),
     endDate: new Date('2024-01-10T11:00:00.000Z'),
   };
@@ -46,6 +52,8 @@ describe('Feature: Organize webinars', () => {
     idGenerator = new FixedIdGenerator();
     dateGenerator = new FixedDateGenerator();
     useCase = new OrganizeWebinars(repository, idGenerator, dateGenerator);
+
+  
   });
 
   describe('Scenario: happy path', () => {
@@ -68,6 +76,7 @@ describe('Feature: Organize webinars', () => {
       userId: 'user-alice-id',
       title: 'Webinar title',
       seats: 100,
+      seatleft: 10,
       startDate: new Date('2024-01-03T23:59:59.000Z'),
       endDate: new Date('2024-01-03T23:59:59.000Z'),
     };
@@ -92,6 +101,7 @@ describe('Feature: Organize webinars', () => {
       userId: 'user-alice-id',
       title: 'Webinar title',
       seats: 1001,
+      seatleft: 10,
       startDate: new Date('2024-01-10T10:00:00.000Z'),
       endDate: new Date('2024-01-10T11:00:00.000Z'),
     };
@@ -116,6 +126,7 @@ describe('Feature: Organize webinars', () => {
       userId: 'user-alice-id',
       title: 'Webinar title',
       seats: 0,
+      seatleft: 0,
       startDate: new Date('2024-01-10T10:00:00.000Z'),
       endDate: new Date('2024-01-10T11:00:00.000Z'),
     };
@@ -133,5 +144,13 @@ describe('Feature: Organize webinars', () => {
 
       expect(repository.database).toEqual([]);
     });
+
+    
   });
+
+
+  
+
+
+
 });

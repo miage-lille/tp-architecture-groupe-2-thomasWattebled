@@ -8,6 +8,7 @@ type WebinarProps = {
   startDate: Date;
   endDate: Date;
   seats: number;
+  seatleft: number
 };
 export class Webinar extends Entity<WebinarProps> {
   isTooSoon(now: Date): boolean {
@@ -26,4 +27,10 @@ export class Webinar extends Entity<WebinarProps> {
   isOrganizer(userId: string) {
     return this.props.organizerId === userId;
   }
+
+  placeLeft(): number {
+    return this.props.seatleft;
+  }
+
+  
 }
