@@ -19,6 +19,14 @@ export class BookSeat implements Executable<Request, Response> {
     private readonly mailer: IMailer,
   ) {}
   async execute({ webinarId, user }: Request): Promise<Response> {
+    
+
+    const participation = this.participationRepository.findByWebinarId(webinarId) ;
+
+    (await participation).map(elt => { 
+      if (elt.props.userId=== user.props.id) 
+        "mettre exeption"}  )
+    
     return;
   }
 }
