@@ -11,6 +11,7 @@ type Request = {
   userId: string;
   title: string;
   seats: number;
+  seatleft: number;
   startDate: Date;
   endDate: Date;
 };
@@ -34,6 +35,7 @@ export class OrganizeWebinars implements Executable<Request, Response> {
       startDate: data.startDate,
       endDate: data.endDate,
       seats: data.seats,
+      seatleft: data.seatleft
     });
     if (webinar.isTooSoon(this.dateGenerator.now())) {
       throw new WebinarDatesTooSoonException();
